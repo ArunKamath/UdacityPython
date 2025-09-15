@@ -62,5 +62,5 @@ def print_results(results_dic, results_stats_dic, model,
     Returns:
            None - simply printing results.
     """    
-    None
-                
+    # Prints summary statistics over the run
+    print("\n\n*** Results Summary for CNN Model Architecture", model.upper(), "***")
