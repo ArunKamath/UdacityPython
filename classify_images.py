@@ -66,8 +66,39 @@ def classify_images(images_dir, results_dic, model):
            None - results_dic is mutable data type so no return needed.         
     """
 
-    print("Inside Classify Images")
-    print("images_dir =", images_dir)
-    print("model =", model) 
+    # print("Inside Classify Images")
+    # print("images_dir =", images_dir)
+    # print("model =", model) 
+
+    for idx in results_dic:
+        # Call classifier function to create the classifier label
+        # using the filename as the input image
+        # (assumes that the image files are in the images_dir directory)
+        classifier_label = classifier(images_dir + idx, model)
+        #print("Classifer Label =", classifier_label)
+        # Process the returned classifier label string so that 
+        # the label format matches that of the pet image labels
+        # (lower case and strip off whitespace characters)
+        classifier_label = classifier_label.lower()
+        classifier_label = classifier_label.strip()
+        
+        # Determine if there is a match between pet image label
+        # and the classifier label
+        # Pet image labels and classifier labels may contain 
+        # multiple words when describing the breed of dog
+        # so find if the pet label is found within the 
+        # classifier label string
+        pet_label = results_dic[idx][0]
+        
+        if pet_label in classifier_label:
+            match = 1
+        else:
+            match = 0
+        
+        # Add the classifier label and the match value to the results dictionary
+        results_dic[idx].extend([classifier_label, match])
+        print(results_dic[idx])
+
+    return results_dic
     
     #None 
