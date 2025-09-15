@@ -67,4 +67,32 @@ def adjust_results4_isadog(results_dic, dogfile):
     Returns:
            None - results_dic is mutable data type so no return needed.
     """           
-    None
+
+    # Reads in dognames from file, 1 name per line & automatically closes file
+    dognames_dic = dict()
+    with open(dogfile, "r") as f:
+        line = f.readline()
+        while line != "":
+            line = line.rstrip()
+            if line not in dognames_dic:
+                dognames_dic[line] = 1
+            line = f.readline()
+    # Processes through results_dic dictionary, compares pet image label
+    # to dognames_dic dictionary. When a match is found between pet image 
+    # label and dognames_dic - index 3 of results_dic value list is set to 1
+    # if no match found index 3 of results_dic value list is set to 0 
+    # then compares classifier label to dognames_dic dictionary. When a match
+    # is found between classifier label and dognames_dic - index 4 of results_dic
+    # value list is set to 1 if no match found index 4 of results_dic value list
+    # is set to 0 - indicates not a dog 
+    
+    for key in results_dic:
+        if results_dic[key][0] in dognames_dic:
+            pet_is_dog = 1
+        else:
+            pet_is_dog = 0
+        if results_dic[key][1] in dognames_dic:
+            class_is_dog = 1
+        else:
+            class_is_dog = 0
+        results_dic[key].extend((pet_is_dog, class_is_dog))
